@@ -1,0 +1,39 @@
+<h4 class="text-center"><strong>Create Multiple Choice Question</strong></h4>
+<p><span>1. Select Options</span> | <span class="text-muted">2. Add Question Text</span></p>
+<%= form_for question, url: survey_question_path do |f| %>
+<%= f.fields_for :category do |qc| %>
+  <% unless question.category.options.size > 0 %>
+  <div class="row">
+    <div class="form-group col-xs-12">
+      <% if question.category.options.size > 0 %>
+        <%= qc.label "How many options should the question have?" %>
+      <% else %>
+        <%= qc.label "Add additional options:" %>
+      <% end %>
+      <div class="row">
+        <div class="col-sm-2">
+          <%= number_field_tag :options_count, class: 'form-control', pattern: "[0-9]*" %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% end %>
+  <div class="row">
+    <div class="form-group col-xs-12">
+      <%= qc.label "Allow multiple selections?" %>
+      <%= qc.check_box :multi %>
+    </div>
+  </div>
+<% end %>
+  <div class="row">
+    <div class="form-group col-xs-12">
+      <%= f.label "required?" %>
+      <%= f.check_box :required %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-sm-4">
+      <%= f.submit "Set Question Options and Continue to Question Text", class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>

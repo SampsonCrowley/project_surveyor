@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Surveyor</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body>
+    <%= render partial: 'shared/main_navbar' %>
+    <div class="container-fluid">
+      <div class="row">
+        <% if content_for?(:sidenav) %>
+          <%= yield(:sidenav) %>
+        <% else %>
+          <div class="col-xs-12">
+        <% end %>
+          <div class="row">
+            <div class="col-xs-12">
+              <% flash.each do |type, msg| %>
+              <div class="alert alert-block alert-<%= type %>">
+                <%= msg.html_safe %>
+              </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="row">
+            <%= yield %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

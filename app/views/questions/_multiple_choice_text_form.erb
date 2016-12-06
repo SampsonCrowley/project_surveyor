@@ -1,0 +1,39 @@
+<h4 class="text-center"><strong>Create Multiple Choice Question</strong></h4>
+<p class="text-center"><span class="text-muted">1. Select Options</span> | <span>2. Add Question Text</span></p>
+<%= form_for question, url: survey_question_path do |q| %>
+<div class="row">
+  <div class="form-group col-xs-12">
+    <%= q.label "Question Text" %>
+    <%= q.text_field :question, class: 'form-control' %>
+  </div>
+</div>
+<%= q.fields_for :category do |qc| %>
+  <%= qc.fields_for :options do |co| %>
+    <div class="row">
+      <div class="form-group col-xs-12">
+        <h4>
+          Option <%= co.index + 1 %>
+        </h4>
+        <%= co.label "Text" %>
+        <%= co.text_field :text, class: 'form-control' %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-xs-12">
+        <%= co.label "Value" %>
+        <%= co.text_field :value, class: 'form-control' %>
+      </div>
+    </div>
+    <% if co.object.persisted? %>
+      <%= co.label :_destroy, "Delete" %>
+      <%= co.check_box :_destroy %><br>
+    <% end %>
+  <% end %>
+<% end %>
+  <input type="hidden" name="complete" value="true">
+  <div class="row">
+    <div class="form-group col-sm-4">
+      <%= q.submit "Complete Question", class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>

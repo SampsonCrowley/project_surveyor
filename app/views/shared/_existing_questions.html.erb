@@ -1,0 +1,12 @@
+<hr>
+<h4><strong>Survey Questions</strong></h4>
+<% survey.questions.each do |q| %>
+  <% unless !q.question || q.question.empty? %>
+    <p><%= q.question %> | <%=link_to 'Edit Question', edit_survey_question_path(survey, q) %></p>
+    <% q.category.options.each.with_index(1) do |option, i| %>
+    <div class="col-xs-12">
+      <p><%= i %>. <%= option.text %></p>
+    </div>
+    <% end %>
+  <% end %>
+<% end %>

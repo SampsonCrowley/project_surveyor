@@ -1,0 +1,22 @@
+<% content_for :sidenav do %>
+  <%= render partial: 'shared/builder_nav' %>
+  <div class="col-sm-10">
+<% end %>
+<div class="col-xs-12">
+  <section class="panel panel-default">
+
+    <div class="panel-heading">
+      <h2 class="panel-title">Create New Survey</h2>
+    </div>
+
+    <!-- Default panel contents -->
+    <div class="panel-body">
+      <%= render partial: 'shared/survey_info', locals: { survey: @survey } %>
+      <%= render partial: 'new_question_form', locals: { survey: @survey, question: @question } %>
+      <%= render partial: 'shared/existing_questions', locals: { survey: @survey } %>
+    </div>
+
+    <div class="panel-footer">
+    </div>
+  </section>
+</div>

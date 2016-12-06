@@ -1,0 +1,14 @@
+<%= form_for [survey, question] do |f| %>
+  <div class="form-group">
+    <%= f.select :category_type, Question.category_list, {}, class: 'form-control' %>
+  </div>
+  <div class="row">
+    <div class="form-group col-sm-4">
+      <%= f.hidden_field :order, value: survey.questions.size %>
+      <%= f.submit "Create Question", class: 'btn btn-primary btn-block' %>
+    </div>
+    <div class="form-group col-sm-4">
+      <%= link_to "Finished", surveys_path, class: 'btn btn-success btn-block'%>
+    </div>
+  </div>
+<% end %>

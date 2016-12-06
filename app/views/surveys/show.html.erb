@@ -1,0 +1,30 @@
+
+<% content_for :sidenav do %>
+  <%= render partial: 'shared/builder_nav' %>
+  <div class="col-sm-10">
+<% end %>
+<div class="col-xs-12">
+  <section class="panel panel-default">
+
+    <div class="panel-heading">
+      <h2 class="panel-title">Survey Details</h2>
+    </div>
+
+    <!-- Default panel contents -->
+    <div class="panel-body">
+      <div class="title">
+        <h4><strong><%= @survey.title %></strong></h4>
+      </div>
+      <div class="description row">
+        <p class="col-sm-2 col-lg-1"><strong>Description:</strong></p>
+        <p class="col-sm-10 col-lg-11"><%= @survey.description %></p>
+      </div>
+      <%= render partial: 'shared/existing_questions', locals: { survey: @survey } %>
+    </div>
+
+    <div class="panel-footer">
+      <%= link_to '<< Back to Surveys', surveys_path %>
+      <%= link_to 'Edit', edit_survey_path(@survey) %>
+    </div>
+  </section>
+</div>
