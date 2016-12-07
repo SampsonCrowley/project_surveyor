@@ -1,9 +1,9 @@
 class Question < ApplicationRecord
   default_scope { order(:order) }
-  
+
   before_save :new_question
 
-  enum question_type: [:multiple_choice, :range]
+  enum question_type: [:multiple_choice, :range_choice]
 
   belongs_to :survey
 
@@ -19,7 +19,7 @@ class Question < ApplicationRecord
   end
 
   def new_question
-    unless category_id || self.category_id
+    unless self.category_id || category_id
       new_question = category_type.constantize.create()
       self.category_id = new_question.id
     end

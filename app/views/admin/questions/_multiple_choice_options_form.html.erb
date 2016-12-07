@@ -1,6 +1,6 @@
 <h4 class="text-center"><strong>Create Multiple Choice Question</strong></h4>
 <p><span>1. Select Options</span> | <span class="text-muted">2. Add Question Text</span></p>
-<%= form_for question, url: survey_question_path do |f| %>
+<%= form_for [:admin, survey, question] do |f| %>
 <%= f.fields_for :category do |qc| %>
   <% unless question.category.options.size > 0 %>
   <div class="row">

@@ -1,6 +1,6 @@
 <h4 class="text-center"><span>1. Build Survey</span> | <span class="text-muted">2. Build Questions</span></h3>
 <hr>
-<%= form_for survey do |f| %>
+<%= form_for [:admin, survey] do |f| %>
 <div class="form-group">
   <%= f.label 'Title' %>
   <%= f.text_field :title, class: 'form-control' %>

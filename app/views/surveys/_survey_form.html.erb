@@ -1,0 +1,36 @@
+<form action="<%= surveys_path(survey) %>" method="post">
+  <% survey.questions.each do |q| %>
+    <h4><%= q.question %></h4>
+    <% if q.category_type == "MultipleChoice" %>
+      <% if q.category.multi %>
+        <% if q.required %>
+        <%= select_tag "survey[#{q.id}]", options_for_select(q.category.options.map {|option| [option.text, option.id]}), multiple: true, required: true,  class: 'form-control' %>
+        <% else %>
+          <% q.category.options.each do |option| %>
+            <label>
+              <%= check_box_tag "survey[#{q.id}]", option.id %>
+              <%= option.text %>
+            </label><br>
+          <% end %>
+        <% end %>
+      <% else %>
+        <% q.category.options.each do |option| %>
+          <label>
+            <%= radio_button_tag "survey[#{q.id}]", option.id, false, { required: q.required } %>
+            <%= option.text %>
+          </label><br>
+        <% end %>
+      <% end %>
+    <% else %>
+      <% if q.category.max %>
+        <%= range_field_tag "survey[#{q.id}]", nil, min: q.category.min, max: q.category.max  %>
+      <% else %>
+        <%= number_field_tag "survey[#{q.id}]", nil, min: q.category.min %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <input type="hidden" name="survey_id" value="<%= survey.id %>">
+  <input type="hidden" name="utf8" value="✓">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <button type="submit">Submit Survey</button>
+</form>

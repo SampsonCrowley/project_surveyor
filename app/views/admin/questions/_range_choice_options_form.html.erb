@@ -1,0 +1,44 @@
+<h4 class="text-center"><strong>Create Multiple Choice Question</strong></h4>
+<p><span>1. Select Options</span> | <span class="text-muted">2. Add Question Text</span></p>
+<%= form_for [:admin, survey, question] do |f| %>
+<div class="row">
+  <div class="form-group col-xs-12">
+    <%= f.label "What is your question?" %>
+    <%= f.text_field :question %>
+  </div>
+</div>
+<%= f.fields_for :category do |qc| %>
+  <div class="row">
+    <div class="form-group col-xs-12">
+        <%= qc.label "What is the Minimum Range Value:" %>
+      <div class="row">
+        <div class="col-sm-2">
+          <%= qc.number_field :min, class: 'form-control', pattern: "[0-9]*" %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-xs-12">
+        <%= qc.label "What is the Maximum Range Value:" %>
+      <div class="row">
+        <div class="col-sm-2">
+          <%= qc.number_field :max, class: 'form-control', pattern: "[0-9]*" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+  <div class="row">
+    <div class="form-group col-xs-12">
+      <%= f.label "required?" %>
+      <%= f.check_box :required %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-sm-4">
+      <input type="hidden" name="complete" value="true">
+      <%= f.submit "Complete Question", class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>

@@ -1,6 +1,6 @@
-class QuestionsController < ApplicationController
+class Admin::QuestionsController < ApplicationController
   before_action :find_survey
-  before_action :find_question, only: [:edit, :update]
+  before_action :find_question, only: [:edit, :update, :destroy]
   def new
     @question = @survey.questions.build
   end
@@ -8,12 +8,18 @@ class QuestionsController < ApplicationController
   def create
     @question = @survey.questions.build(whitelisted)
     if @question.save
-      flash[:success] = %Q[Question: <a href="#{survey_question_path(@survey, @question)}">New Question Created!</a> created!]
-      redirect_to edit_survey_question_path(@survey, @question)
+      flash[:success] = %Q[Question: <a href="#{admin_survey_question_path(@survey, @question)}">New Question Created!</a> created!]
+      redirect_to edit_admin_survey_question_path(@survey, @question)
     else
-      flash[:danger] = %Q[Question: not created!<br>#{@question.errors.full_messages.map {|m| m}}.join("<br>")]
+      flash.now[:danger] = %Q[Question: not created!<br>#{@question.errors.full_messages.map {|m| m}}.join("<br>")]
       render :new
     end
+  end
+
+  def destroy
+    @question.destroy
+    flash[:info] = "Question deleted!"
+    redirect_to admin_survey_path(@survey)
   end
 
   def edit
@@ -25,13 +31,12 @@ class QuestionsController < ApplicationController
     if @question.update(whitelisted)
       flash[:success] = %Q[Question Options Set!]
       if params[:complete] == "true"
-        MultipleChoice.reset_counters(@question.category_id, :options)
-        redirect_to new_survey_question_path(@survey)
+        redirect_to new_admin_survey_question_path(@survey)
       else
-        redirect_to edit_survey_question_path(@survey, @question, set_text: "true", options_count: params[:options_count])
+        redirect_to edit_admin_survey_question_path(@survey, @question, set_text: "true", options_count: params[:options_count])
       end
     else
-      flash[:danger] = %Q[Question not updated..<br>#{@question.errors.full_messages.map {|m| m}}.join("<br>")]
+      flash.now[:danger] = %Q[Question not updated..<br>#{@question.errors.full_messages.map {|m| m}}.join("<br>")]
       render :edit
     end
   end
@@ -57,6 +62,8 @@ class QuestionsController < ApplicationController
                         category_attributes: [
                           :id,
                           :multi,
+                          :min,
+                          :max,
                           {
                             options_attributes:[
                               :id,

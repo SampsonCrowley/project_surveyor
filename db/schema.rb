@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161206013202) do
+ActiveRecord::Schema.define(version: 20161207023825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,7 +25,6 @@ ActiveRecord::Schema.define(version: 20161206013202) do
   create_table "options", force: :cascade do |t|
     t.integer  "multiple_choice_id"
     t.string   "text"
-    t.string   "value"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.index ["multiple_choice_id"], name: "index_options_on_multiple_choice_id", using: :btree
@@ -44,6 +43,21 @@ ActiveRecord::Schema.define(version: 20161206013202) do
     t.index ["survey_id"], name: "index_questions_on_survey_id", using: :btree
   end
 
+  create_table "range_choices", force: :cascade do |t|
+    t.integer  "min",        default: 0
+    t.integer  "max"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "results", force: :cascade do |t|
+    t.integer  "survey_id"
+    t.json     "result"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["survey_id"], name: "index_results_on_survey_id", using: :btree
+  end
+
   create_table "surveys", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
@@ -53,4 +67,5 @@ ActiveRecord::Schema.define(version: 20161206013202) do
 
   add_foreign_key "options", "multiple_choices"
   add_foreign_key "questions", "surveys"
+  add_foreign_key "results", "surveys"
 end

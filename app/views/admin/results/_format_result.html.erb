@@ -1,0 +1,21 @@
+<hr>
+<h4><strong>Survey Results</strong></h4>
+<% result.result.each do |result| %>
+<% q = Question.find_by_id(result[0]) %>
+<% o = Option.find_by_id(result[1]) %>
+<p>Question:
+  <span class="col-xs-12">
+  <%= q.question %>
+  </span>
+  </p>
+<% answers = q.category.get_results(result[1]) %>
+<p>
+<%= answers.length < 2 ? "Answer:" : "Answers:"%>
+<% answers.each do |a| %>
+  <span class="col-xs-12">
+    <%= a %>
+  </span>
+<% end %>
+</p><br><br>
+
+<% end %>

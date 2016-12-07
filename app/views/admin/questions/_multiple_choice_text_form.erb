@@ -1,6 +1,6 @@
 <h4 class="text-center"><strong>Create Multiple Choice Question</strong></h4>
 <p class="text-center"><span class="text-muted">1. Select Options</span> | <span>2. Add Question Text</span></p>
-<%= form_for question, url: survey_question_path do |q| %>
+<%= form_for [:admin, survey, question] do |q| %>
 <div class="row">
   <div class="form-group col-xs-12">
     <%= q.label "Question Text" %>
@@ -16,12 +16,6 @@
         </h4>
         <%= co.label "Text" %>
         <%= co.text_field :text, class: 'form-control' %>
-      </div>
-    </div>
-    <div class="row">
-      <div class="form-group col-xs-12">
-        <%= co.label "Value" %>
-        <%= co.text_field :value, class: 'form-control' %>
       </div>
     </div>
     <% if co.object.persisted? %>
